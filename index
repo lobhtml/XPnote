@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPnote | Classic Notepad</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet"> <!-- Import IBM Plex Mono -->
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace; /* Use IBM Plex Mono */
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        textarea {
+            width: 90%;
+            height: 300px;
+            font-size: 20px;
+            font-family: 'IBM Plex Mono', monospace; /* Ensures same font */
+        }
+        button, input {
+            margin-top: 10px;
+            padding: 5px 10px; /* Smaller padding for smaller buttons */
+            font-size: 14px; /* Slightly smaller font size */
+            font-family: 'IBM Plex Mono', monospace; /* Ensures same font */
+        }
+        #fileName {
+            width: calc(100% - 12px);
+        }
+        #loadFile {
+            display: none;
+        }
+        button {
+            background-color: #e0e0e0; /* Light gray background */
+            border: 1px solid #a0a0a0; /* Gray border */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        button:hover {
+            background-color: #d0d0d0; /* Slightly darker on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;">
+    <img src="xp-note.png" alt="Logo" style="max-width: 200px; margin-bottom: 20px;" />
+</div>
+
+<div style="border-bottom: 10px; padding-bottom: 5px; text-align: center;">
+    <button id="clearBtn">Clear</button>
+    <button id="saveBtn">Save as .txt</button>
+    <input type="file" id="loadFile" accept=".txt" />
+    <button id="loadBtn">Load .txt file</button>
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <input type="text" id="fileName" placeholder="Enter file name (without .txt)" style="width: 25%;" /><br>
+</div>
+
+<div style="text-align: center; margin-bottom: 10px;">
+    <textarea id="notepad" placeholder="Type your notes here..." style="width: 80%; height: 300px;"></textarea><br>
+</div>
+
+<footer style="margin-top: 20px; text-align: center; font-size: 12px; color: gray;">
+    &copy; <span id="currentYear"></span> Created by LukePlayzIE.
+</footer>
+
+<script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('notepad').value = ''; // Clear the textarea
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const text = document.getElementById('notepad').value;
+        const fileName = document.getElementById('fileName').value || 'note'; // Default to 'note' if empty
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${fileName}.txt`; // Set the download filename
+        document.body.appendChild(link); // Append link to the document
+        link.click(); // Simulate click to open the save prompt
+        document.body.removeChild(link); // Clean up the link element
+        URL.revokeObjectURL(link.href); // Free up memory
+    });
+
+    document.getElementById('loadBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('loadFile');
+        fileInput.click(); // Trigger the file input when the button is clicked
+
+        fileInput.onchange = function() {
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('notepad').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        };
+    });
+</script>
+
+</body>
+</html>
