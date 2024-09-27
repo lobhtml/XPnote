@@ -1,5 +1,2 @@
-XPnote is a classic, functional notepad. This is a basic project to learn more about coding and web development.
-
-V1 [Master version] - Features the basic functions of a notepad. Clear field, save file, load file.
-
-V1.1 [Dark mode] - Added dark mode for all elements and fields (apart fromt the logo image).
+## XPnote
+XPnote is a basic static web application (notepad) built with HTML, CSS, and JavaScript. The purpose of this solo dev project is to learn more about front-end coding in practice. The UI is inspired by classic operating systems like Windows XP, 95/98, and MS-DOS.
