@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPnote | Classic Notepad</title>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KSMF2P8V');</script>
+<!-- End Google Tag Manager -->
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #f0f0f0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        textarea {
+            width: 90%;
+            height: 300px;
+            font-size: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button, input {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button {
+            background-color: #e0e0e0;
+            border: 1px solid #a0a0a0;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d0d0d0;
+        }
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        .dark-mode button {
+            background-color: #555;
+            color: #f0f0f0;
+            border: 1px solid #777;
+        }
+        .dark-mode button:hover {
+            background-color: #666;
+        }
+        .dark-mode textarea,
+        .dark-mode input[type="text"] {
+            background-color: #444;
+            color: #f0f0f0;
+            border: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KSMF2P8V"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div style="text-align: center;">
+
+    <img src="xp-note.png" alt="XPnote Classic Notepad Logo" style="max-width: 200px; margin-bottom: 20px;" />
+</div>
+
+<div style="border-bottom: 10px; padding-bottom: 5px; text-align: center;">
+    <button id="clearBtn">Clear</button>
+    <button id="saveBtn">Save as .txt</button>
+    <input type="file" id="loadFile" accept=".txt" style="display:none;" />
+    <button id="loadBtn">Load .txt file</button>
+    <button id="toggleDarkMode">Toggle Dark Mode</button>
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <input type="text" id="fileName" placeholder="Enter file name (without .txt)" style="width: 25%;" /><br>
+</div>
+
+<div style="text-align: center; margin-bottom: 10px;">
+    <textarea id="notepad" placeholder="Type your notes here..." style="width: 80%; height: 300px;"></textarea><br>
+</div>
+
+<footer style="margin-top: 20px; text-align: center; font-size: 12px; color: gray;">
+    &copy; <span id="currentYear"></span> v.1.2 Created by Luke O'Brien.
+</footer>
+
+<script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    document.getElementById('toggleDarkMode').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('notepad').value = '';
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const text = document.getElementById('notepad').value;
+        const fileName = document.getElementById('fileName').value || 'note';
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${fileName}.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    });
+
+    document.getElementById('loadBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('loadFile');
+        fileInput.click();
+        fileInput.onchange = function() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('notepad').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        };
+    });
+</script>
+
+</body>
+</html>
