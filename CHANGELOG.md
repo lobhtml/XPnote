@@ -17,3 +17,4 @@
 - Tab in function added
 - Clear button updated to clear file name field
 - Default file name changed to 'xpnote'
+- Favicon/icon added
