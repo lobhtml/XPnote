@@ -105,7 +105,7 @@
 
     document.getElementById('saveBtn').addEventListener('click', function() {
         const text = document.getElementById('notepad').value;
-        const fileName = document.getElementById('fileName').value || 'note';
+        const fileName = document.getElementById('fileName').value || 'xpnote';
         const blob = new Blob([text], { type: 'text/plain' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
