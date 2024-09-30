@@ -12,3 +12,7 @@
 - Google Analytics code added
 - Logo alt text clarified
 - Author credit updated
+
+## v1.3 - 30-09-2024
+- Tab in function added
+- Clear button updated to clear file name field
