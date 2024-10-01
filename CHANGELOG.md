@@ -18,3 +18,10 @@
 - Clear button updated to clear file name field
 - Default file name changed to 'xpnote'
 - Favicon/icon added
+
+- ## v1.4 - 01-10-2024
+- Updated logo and favicon
+- Font changed to Tahoma site-wide
+- Gradient added to buttons
+- Bolder border added to buttons and text fields in light mode
+- Dark mode CSS corrected to correspond to the changes in light mode
