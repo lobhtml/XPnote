@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGH29RQF22"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GGH29RQF22');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPnote | Classic Notepad</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        textarea {
+            width: 90%;
+            height: 300px;
+            font-size: 20px;
+            font-family: 'Tahoma', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid #737373;
+        }
+        button, input {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-family: 'Tahoma', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid #737373;
+        }
+        button {
+            background: linear-gradient(0deg, #e0e0e0, #ffffff);
+            border: 1px solid #737373;
+            cursor: pointer;
+        }
+        button:hover {
+            background: linear-gradient(0deg, #c1c1c1, #ececec);
+        }
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        .dark-mode button {
+            background: linear-gradient(0deg, #444, #666);
+            color: #f0f0f0;
+            border: 1px solid #777;
+        }
+        .dark-mode button:hover {
+            background: linear-gradient(0deg, #555, #888);
+        }
+        .dark-mode textarea,
+        .dark-mode input[type="text"] {
+            background-color: #444;
+            color: #f0f0f0;
+            border: 1px solid #666;
+        }
+    </style>
+	    <link rel="icon" href="/xp-note-icon.png" type="image/x-icon">
+</head>
+<body>
+    
+<div style="text-align: center;">
+    <img src="xp-note2.png" alt="XPnote Classic Notepad Logo" style="max-width: 250px; margin-bottom: 0px;" />
+</div>
+
+<div style="border-bottom: 10px; padding-bottom: 5px; text-align: center;">
+    <button id="clearBtn">Clear</button>
+    <button id="saveBtn">Save as .txt</button>
+    <input type="file" id="loadFile" accept=".txt" style="display:none;" />
+    <button id="loadBtn">Load .txt file</button>
+    <button id="toggleDarkMode">Toggle Dark Mode</button>
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <input type="text" id="fileName" placeholder="Enter file name (without .txt)" style="width: 25%;" /><br>
+</div>
+
+<div style="text-align: center; margin-bottom: 10px;">
+    <textarea id="notepad" placeholder="Type your notes here..." style="width: 80%; height: 300px;"></textarea><br>
+</div>
+
+<footer style="margin-top: 20px; text-align: center; font-size: 12px; color: gray;">
+    &copy; <span id="currentYear"></span> v1.4 Created by Luke O'Brien.
+</footer>
+
+<script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    document.getElementById('toggleDarkMode').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('notepad').value = '';
+		document.getElementById('fileName').value = '';
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const text = document.getElementById('notepad').value;
+        const fileName = document.getElementById('fileName').value || 'xpnote';
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${fileName}.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    });
+
+    document.getElementById('loadBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('loadFile');
+        fileInput.click();
+        fileInput.onchange = function() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('notepad').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        };
+    });
+	
+	const textarea = document.getElementById('notepad');
+    textarea.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault(); // Prevent the default tab behavior
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            // Insert spaces (4 spaces in this case)
+            const value = this.value;
+            this.value = value.substring(0, start) + '    ' + value.substring(end);
+            // Move the cursor to the end of the inserted spaces
+            this.selectionStart = this.selectionEnd = start + 4;
+        }
+    });
+</script>
+</script>
+
+</body>
+</html>
